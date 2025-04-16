@@ -1,0 +1,43 @@
+name: Auto Merge Name Card
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  merge-card:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v3
+      with:
+        ref: main
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get new contributor name
+      id: get-name
+      run: |
+        NAME=$(find . -name '*.txt' | xargs cat | head -n 1)
+        echo "name=$NAME" >> $GITHUB_OUTPUT
+
+    - name: Add card to index.html
+      run: |
+        NAME="${{ steps.get-name.outputs.name }}"
+        awk "/<!-- Add your card below this line -->/ { print \"<div class=\\\"card\\\">\" NAME \"</div>\"; print; next }1" index.html > new_index.html
+        mv new_index.html index.html
+
+    - name: Commit changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add index.html
+        git commit -m "🤖 Auto-add card for ${{ steps.get-name.outputs.name }}"
+        git push origin main
+
+    - name: Comment and close PR
+      uses: peter-evans/close-pull-request@v3
+      with:
+        pull-request-number: ${{ github.event.pull_request.number }}
+        comment: |
+          ✅ Your contribution has been merged into `index.html`. Thank you, ${{ steps.get-name.outputs.name }}! 🎉
