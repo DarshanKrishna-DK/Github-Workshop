@@ -1,4 +1,11 @@
-# Github-Workshop-PR-Demo
+<h1 align="center">GitHub Workshop</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Git-2563EB?style=for-the-badge" alt="Git" />
+  <img src="https://img.shields.io/badge/GitHub-7C3AED?style=for-the-badge" alt="GitHub" />
+  <img src="https://img.shields.io/badge/Pull%20Requests-0891B2?style=for-the-badge" alt="Pull Requests" />
+  <img src="https://img.shields.io/badge/HTML-475569?style=for-the-badge" alt="HTML" />
+</p>
 
 Welcome to the GitHub Pull Request Demo! This activity is designed to help you get hands-on experience with GitHub by contributing to a collaborative HTML page.
 
